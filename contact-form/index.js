@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     console.log(req.body);
+    console.log(process.env)
 
     // if (req.query.name || (req.body && req.body.name)) {
     //     context.res = {
@@ -23,14 +24,17 @@ module.exports = async function (context, req) {
   
     var smtpTransport = nodemailer.createTransport({
       // host: process.env.SERVICE_MAILTRAP,
-      service: process.env.SERVICE_GMAIL,
+      service: 'GMAIL',
+    //   service: process.env.SERVICE_GMAIL,
       port: 465,
       auth: {
-        user: process.env.USERNAME,
-        pass: process.env.PASSWORD
+        user: 'azrie.smtp@gmail.com',
+        pass: 'Rickroll@5300'
+        // user: process.env.USERNAME,
+        // pass: process.env.PASSWORD
       }
     });
-    console.log(process.env);
+
     var mailOptions = {
       from: data.email,
       to: 'mohamad.azriebakri@gmail.com',
@@ -43,11 +47,7 @@ module.exports = async function (context, req) {
       if(error) {
         context.res.send(error)
       } else {
-        context.res = {
-            status: 200,
-            body: "Success!"
-        };      
-        context.done();
+        context.res.send('Success!') 
       }
       smtpTransport.close();
     });
