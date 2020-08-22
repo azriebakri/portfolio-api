@@ -23,15 +23,11 @@ module.exports = async function (context, req) {
     // console.log('Check:', check);
   
     var smtpTransport = nodemailer.createTransport({
-      // host: process.env.SERVICE_MAILTRAP,
       service: 'GMAIL',
-    //   service: process.env.SERVICE_GMAIL,
       port: 465,
       auth: {
-        user: 'azrie.smtp@gmail.com',
-        pass: 'Rickroll@5300'
-        // user: process.env.USERNAME,
-        // pass: process.env.PASSWORD
+        user: process.env.APPSETTING_SMTPUSERNAME,
+        pass: process.env.APPSETTING_SMTPPASSWORD
       }
     });
 
@@ -45,9 +41,10 @@ module.exports = async function (context, req) {
     smtpTransport.sendMail(mailOptions,
     (error, response) => {
       if(error) {
-        context.res.send(error)
+        context.done(error)
       } else {
-        context.res.send('Success!') 
+
+        context.done('Success!') 
       }
       smtpTransport.close();
     });
