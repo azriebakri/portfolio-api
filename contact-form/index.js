@@ -3,26 +3,32 @@ const sgMail = require('@sendgrid/mail');
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
-    console.log(req.body);
-    console.log(process.env)
+    // console.log(req.body);
+    // console.log(process.env)
 
-    var data = req.body;
+    try {
+      var data = req.body;
 
-    sgMail.setApiKey(process.env.APPSETTING_SENDGRID_API_KEY);
-    const msg = {
-      to: 'mohamad.azriebakri@gmail.com',
-      from: data.email,
-      subject: data.subject,
-      html: `<p><b>From: ${data.name}</b> <<i>${data.email}</i>></p><p>${data.message}</p><p>Best regards, ${data.name}</p>`,
-    };
+      sgMail.setApiKey('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');
+      const msg = {
+        to: 'mohamad.azriebakri@gmail.com',
+        from: data.email,
+        subject: data.subject,
+        html: `<p><b>From: ${data.name}</b> <<i>${data.email}</i>></p><p>${data.message}</p><p>Best regards, ${data.name}</p>`,
+      };
+  
+      sgMail
+      .send(msg)
+      .then(() => { console.log('promise') }, error => {
+        console.error(error);
+    
+        if (error.response) {
+          console.error(error.response.body)
+        }
+      });
 
-    sgMail.send(msg, (error, response) => {
-      if(error) {
-        context.res(error)
-      } else {
+    } catch(e) {
+      throw(e);
+    }
 
-        context.res('Success!') 
-      }
-      smtpTransport.close();
-    });
 };
