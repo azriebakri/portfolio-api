@@ -9,7 +9,7 @@ module.exports = async function (context, req) {
     try {
       var data = req.body;
 
-      sgMail.setApiKey('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');
+      sgMail.setApiKey(process.env.APPSETTING_SENDGRID_API_KEY);
       const msg = {
         to: 'mohamad.azriebakri@gmail.com',
         from: data.email,
